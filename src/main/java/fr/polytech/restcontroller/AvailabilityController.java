@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.UUID;
@@ -43,7 +44,7 @@ public class AvailabilityController {
             List<Availability> availabilities = availabilityService.getAllAvailabilities();
             logger.info("Got all availabilities");
             return ResponseEntity.ok(availabilities);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             logger.error("Error while getting all availabilities: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -62,7 +63,7 @@ public class AvailabilityController {
             Availability availability = availabilityService.getAvailabilityById(id);
             logger.info("Got availability with id " + id);
             return ResponseEntity.ok(availability);
-        } catch (NotFoundException e) {
+        } catch (HttpClientErrorException e) {
             logger.error("Error while getting availability with id " + id + ": " + e.getMessage());
             return ResponseEntity.notFound().build();
         }
@@ -83,7 +84,7 @@ public class AvailabilityController {
             Availability availability = availabilityService.createAvailability(availabilityDTO);
             logger.info("Created availability with id " + availability.getId());
             return ResponseEntity.ok(availability);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             logger.error("Error while creating availability: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -104,7 +105,7 @@ public class AvailabilityController {
             Availability availability = availabilityService.updateAvailability(availabilityDTO);
             logger.info("Updated availability with id " + availability.getId());
             return ResponseEntity.ok(availability);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             logger.error("Error while updating availability: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -124,7 +125,7 @@ public class AvailabilityController {
             availabilityService.deleteAvailability(id);
             logger.info("Deleted availability with id " + id);
             return ResponseEntity.ok(true);
-        } catch (Exception e) {
+        } catch (HttpClientErrorException e) {
             logger.error("Error while deleting availability: " + e.getMessage());
             return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         }
