@@ -1,10 +1,11 @@
 package fr.polytech.restcontroller;
 
+import fr.polytech.annotation.IsAdmin;
+import fr.polytech.annotation.IsCandidate;
 import fr.polytech.model.Availability;
 import fr.polytech.model.AvailabilityDTO;
 import fr.polytech.service.AvailabilityService;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Produces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -37,7 +37,7 @@ public class AvailabilityController {
      * @return List of all availabilities.
      */
     @GetMapping("/")
-    @PreAuthorize("hasRole('client_admin')")
+    @IsAdmin
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Availability>> getAllAvailabilities() {
         try {
@@ -76,7 +76,7 @@ public class AvailabilityController {
      * @return Created availability.
      */
     @PostMapping("/")
-    @PreAuthorize("hasRole('client_candidate')")
+    @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Availability> createAvailability(@RequestBody AvailabilityDTO availabilityDTO) {
@@ -97,7 +97,7 @@ public class AvailabilityController {
      * @return Updated availability.
      */
     @PutMapping("/")
-    @PreAuthorize("hasRole('client_candidate')")
+    @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Availability> updateAvailability(@RequestBody AvailabilityDTO availabilityDTO) {
@@ -118,7 +118,7 @@ public class AvailabilityController {
      * @return True if the availability has been deleted, false otherwise.
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('client_candidate')")
+    @IsCandidate
     @Produces(MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<Boolean> deleteAvailability(@PathVariable("id") UUID id) {
         try {
