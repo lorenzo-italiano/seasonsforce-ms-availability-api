@@ -2,6 +2,8 @@ package fr.polytech.service;
 
 import fr.polytech.model.Availability;
 import fr.polytech.model.AvailabilityDTO;
+import fr.polytech.model.DetailedAvailabilityDTO;
+import fr.polytech.model.JobCategoryDTO;
 import fr.polytech.repository.AvailabilityRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.slf4j.Logger;
@@ -24,6 +26,9 @@ public class AvailabilityService {
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
+
+    @Autowired
+    private JobCategoryService jobCategoryService;
 
     /**
      * Get all availabilities.
@@ -150,5 +155,27 @@ public class AvailabilityService {
             logger.error("Error while creating an availability: start date must be before end date");
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Start date must be before end date");
         }
+    }
+
+    public DetailedAvailabilityDTO getDetailedAvailabilityById(UUID id, String token) {
+        Availability availability = availabilityRepository.findById(id).orElse(null);
+
+        if (availability == null) {
+            logger.error("Error while getting an availability: availability not found");
+            // If the availability is not found, throw an exception
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Availability not found");
+        }
+
+        DetailedAvailabilityDTO detailedAvailabilityDTO = new DetailedAvailabilityDTO();
+        detailedAvailabilityDTO.setId(availability.getId());
+        detailedAvailabilityDTO.setJobTitle(availability.getJobTitle());
+        detailedAvailabilityDTO.setEndDate(availability.getEndDate());
+        detailedAvailabilityDTO.setStartDate(availability.getStartDate());
+        detailedAvailabilityDTO.setPlaceList(availability.getPlaceList());
+
+        JobCategoryDTO jobCategoryById = jobCategoryService.getJobCategoryById(availability.getJobCategoryId(), token);
+        detailedAvailabilityDTO.setJobCategory(jobCategoryById);
+
+        return detailedAvailabilityDTO;
     }
 }

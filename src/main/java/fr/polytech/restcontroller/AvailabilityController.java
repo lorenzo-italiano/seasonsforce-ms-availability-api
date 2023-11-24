@@ -4,6 +4,7 @@ import fr.polytech.annotation.IsAdmin;
 import fr.polytech.annotation.IsCandidate;
 import fr.polytech.model.Availability;
 import fr.polytech.model.AvailabilityDTO;
+import fr.polytech.model.DetailedAvailabilityDTO;
 import fr.polytech.service.AvailabilityService;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.Produces;
@@ -61,6 +62,25 @@ public class AvailabilityController {
     public ResponseEntity<Availability> getAvailabilityById(@PathVariable("id") UUID id) {
         try {
             Availability availability = availabilityService.getAvailabilityById(id);
+            logger.info("Got availability with id " + id);
+            return ResponseEntity.ok(availability);
+        } catch (HttpClientErrorException e) {
+            logger.error("Error while getting availability with id " + id + ": " + e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Get detailed availability by id.
+     *
+     * @param id Availability id.
+     * @return Detailed availability with the specified id.
+     */
+    @GetMapping("/detailed/{id}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DetailedAvailabilityDTO> getDetailedAvailabilityById(@PathVariable("id") UUID id, @RequestHeader("Authorization") String token) {
+        try {
+            DetailedAvailabilityDTO availability = availabilityService.getDetailedAvailabilityById(id, token);
             logger.info("Got availability with id " + id);
             return ResponseEntity.ok(availability);
         } catch (HttpClientErrorException e) {
