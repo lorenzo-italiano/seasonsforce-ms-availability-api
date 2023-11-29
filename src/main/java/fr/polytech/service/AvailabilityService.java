@@ -157,6 +157,13 @@ public class AvailabilityService {
         }
     }
 
+    /**
+     * Get a detailed availability by id.
+     *
+     * @param id    Availability id.
+     * @param token Token.
+     * @return Detailed availability with the specified id.
+     */
     public DetailedAvailabilityDTO getDetailedAvailabilityById(UUID id, String token) {
         Availability availability = availabilityRepository.findById(id).orElse(null);
 

@@ -35,6 +35,10 @@ public class AvailabilityControllerTest {
     @MockBean
     private AvailabilityService availabilityService;
 
+    /**
+     * Test that the endpoint returns a 200 status code.
+     * @throws Exception if an error occurs
+     */
     @Test
     @WithMockUser
     public void testGetAllAvailabilities() throws Exception {
@@ -43,6 +47,10 @@ public class AvailabilityControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint returns a 200 status code.
+     * @throws Exception if an error occurs
+     */
     @Test
     @WithMockUser
     public void testGetAvailabilityById() throws Exception {
@@ -52,6 +60,10 @@ public class AvailabilityControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint returns a 200 status code.
+     * @throws Exception if an error occurs
+     */
     @Test
     @WithMockUser
     public void testCreateAvailability() throws Exception {
@@ -76,6 +88,10 @@ public class AvailabilityControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint returns a 200 status code.
+     * @throws Exception if an error occurs
+     */
     @Test
     @WithMockUser
     public void testUpdateAvailability() throws Exception {
@@ -100,6 +116,10 @@ public class AvailabilityControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint returns a 200 status code.
+     * @throws Exception if an error occurs
+     */
     @Test
     @WithMockUser
     public void testDeleteAvailability() throws Exception {

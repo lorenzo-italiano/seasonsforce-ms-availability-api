@@ -27,6 +27,9 @@ public class AvailabilityServiceTest {
     @Autowired
     private AvailabilityService availabilityService;
 
+    /**
+     * Test that the method returns a list of availabilities.
+     */
     @Test
     public void testGetAllAvailabilities() {
         availabilityRepository.save(new Availability()); // Save some dummy data
@@ -38,6 +41,9 @@ public class AvailabilityServiceTest {
         assertTrue(result.size() >= 2);
     }
 
+    /**
+     * Test that the method returns an availability with the specified id.
+     */
     @Test
     public void testGetAvailabilityById() {
         Availability savedAvailability = availabilityRepository.save(new Availability());
@@ -47,6 +53,9 @@ public class AvailabilityServiceTest {
         assertEquals(savedAvailability.getId(), result.getId());
     }
 
+    /**
+     * Test that the method throws an exception when the availability is not found.
+     */
     @Test
     public void testGetAvailabilityByIdWithInvalidId() {
         // Check that an exception is thrown with status code 404
@@ -54,6 +63,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method creates an availability.
+     */
     @Test
     public void testCreateAvailability() {
         AvailabilityDTO availability = new AvailabilityDTO();
@@ -68,6 +80,9 @@ public class AvailabilityServiceTest {
         assertNotNull(result.getId());
     }
 
+    /**
+     * Test that the method throws an exception when the end date is before the start date.
+     */
     @Test
     public void testCreateAvailabilityWithEndDateBeforeStartDate() {
         AvailabilityDTO availability = new AvailabilityDTO();
@@ -86,6 +101,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method throws an exception when the availability does not have all the required attributes.
+     */
     @Test
     public void testCreateAvailabilityWithMissingAttributes() {
         AvailabilityDTO availability = new AvailabilityDTO();
@@ -96,6 +114,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method updates an availability.
+     */
     @Test
     public void testUpdateAvailability() {
         Availability availabilityToSave = new Availability();
@@ -119,6 +140,9 @@ public class AvailabilityServiceTest {
         assertEquals(savedAvailability.getId(), result.getId());
     }
 
+    /**
+     * Test that the method throws an exception when the end date is before the start date.
+     */
     @Test
     public void testUpdateAvailabilityWithEndDateBeforeStartDate() {
         Availability availabilityToSave = new Availability();
@@ -146,6 +170,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method throws an exception when the availability does not have all the required attributes.
+     */
     @Test
     public void testUpdateAvailabilityWithMissingAttributes() {
         Availability availabilityToSave = new Availability();
@@ -165,6 +192,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method throws an exception when the availability is not found.
+     */
     @Test
     public void testUpdateAvailabilityWithInvalidId() {
         AvailabilityDTO availability = new AvailabilityDTO();
@@ -180,6 +210,9 @@ public class AvailabilityServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method deletes an availability.
+     */
     @Test
     public void testDeleteAvailability() {
         Availability savedAvailability = availabilityRepository.save(new Availability());
